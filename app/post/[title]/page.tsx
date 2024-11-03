@@ -117,14 +117,17 @@ const Page = () => {
             <div className={cn('flex sm:mx-4 lg:mx-44 space-x-5 lg:space-x-36 my-20', AerialFont.className)}>
                 <div className='sm:hidden lg:flex'>
                     <Button variant={"outline"} className="p-5" asChild size={"lg"}>
-                        <>
-                            {posts.map((post,) => (
-                                <div key={post.id} className='flex space-x-2 text-gray-600 text-lg'>
+                        <div className='flex space-x-2 text-gray-600 text-lg'>
+                            {posts.length > 0 && postCategories[posts[0].id] && Array.isArray(postCategories[posts[0].id]) && postCategories[posts[0].id].length > 0 ? (
+                                <>
+                                    <h2>{posts[0].type}</h2>
                                     <ChevronRightIcon className='mt-1.5' />
-                                    <p>{postCategories[posts[0].id]}</p>
-                                </div>
-                            ))}
-                        </>
+                                    <p>{postCategories[posts[0].id][0]}</p> {/* Display the first category */}
+                                </>
+                            ) : (
+                                <p>No categories available</p>
+                            )}
+                        </div>
                     </Button>
                 </div>
                 <div className='flex flex-col gap-5'>
