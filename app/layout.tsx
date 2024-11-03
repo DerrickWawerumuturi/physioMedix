@@ -29,12 +29,13 @@ export default async function RootLayout({
       <body
         suppressHydrationWarning
       >
-        {!pathname?.startsWith("/admin") && (
-          <Navbar />
-        )}
+        <>
+          {!pathname?.startsWith("/admin") && (
+            <Navbar />
+          )}
 
-        {children}
-
+          {children}
+        </>
       </body>
     </html>
   );
