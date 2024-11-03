@@ -120,9 +120,8 @@ const Page = () => {
                         <>
                             {posts.map((post,) => (
                                 <div key={post.id} className='flex space-x-2 text-gray-600 text-lg'>
-                                    <h2>{post.type}</h2>
                                     <ChevronRightIcon className='mt-1.5' />
-                                    <p>{postCategories[post.id]}</p>
+                                    <p>{postCategories[posts[0].id]}</p>
                                 </div>
                             ))}
                         </>
