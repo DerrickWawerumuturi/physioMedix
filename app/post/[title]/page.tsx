@@ -114,13 +114,12 @@ const Page = () => {
 
     return (
         <>
-            <div className={cn('flex sm:mx-4 lg:mx-44 space-x-5 lg:space-x-60 my-20', AerialFont.className)}>
+            <div className={cn('flex sm:mx-4 lg:mx-44 space-x-5 lg:space-x-36 my-20', AerialFont.className)}>
                 <div className='sm:hidden lg:flex'>
                     <Button variant={"outline"} className="p-5" asChild size={"lg"}>
                         <>
                             {posts.map((post,) => (
                                 <div key={post.id} className='flex space-x-2 text-gray-600 text-lg'>
-                                    <h2>{posts[0].type}</h2>
                                     <ChevronRightIcon className='mt-1.5' />
                                     <p>{postCategories[posts[0].id]}</p>
                                 </div>
@@ -133,7 +132,8 @@ const Page = () => {
                     <div className='text-lg text-gray-600 font-thin'>{Serialize(content)}</div>
                 </div>
             </div>
-            <div className='mt-10 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 sm:max-w-3xl lg:max-w-7xl lg:max-width md:pl-5 lg:pl-0'>
+            <h2 className='ml-32 font-bold text-7xl'> Recent Posts</h2>
+            <div className='mt-10 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 sm:max-w-3xl lg:max-w-7xl lg:max-width md:pl-5 lg:pl-0 sm:mx-14 lg:mx-36'>
                 {posts && posts.map((post, index) => (
                     <Card
                         key={index}
