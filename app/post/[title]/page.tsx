@@ -117,13 +117,15 @@ const Page = () => {
             <div className={cn('flex sm:mx-4 lg:mx-44 space-x-5 lg:space-x-60 my-20', AerialFont.className)}>
                 <div className='sm:hidden lg:flex'>
                     <Button variant={"outline"} className="p-5" asChild size={"lg"}>
-                        {posts.map((post,) => (
-                            <div key={post.id} className='flex space-x-2 text-gray-600 text-lg'>
-                                <h2>{post.type}</h2>
-                                <ChevronRightIcon className='mt-1.5' />
-                                <p>{postCategories[post.id]}</p>
-                            </div>
-                        ))}
+                        <>
+                            {posts.map((post,) => (
+                                <div key={post.id} className='flex space-x-2 text-gray-600 text-lg'>
+                                    <h2>{post.type}</h2>
+                                    <ChevronRightIcon className='mt-1.5' />
+                                    <p>{postCategories[post.id]}</p>
+                                </div>
+                            ))}
+                        </>
                     </Button>
                 </div>
                 <div className='flex flex-col gap-5'>
