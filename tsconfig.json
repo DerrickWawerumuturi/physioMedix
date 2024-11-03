@@ -24,10 +24,10 @@
     ],
     "paths": {
       "@/*": [
-        "./src/*"
+        "./*"
       ],
       "@payload-config": [
-        "./src/payload.config.ts"
+        "payload.config.ts"
       ]
     },
     "target": "ES2017"
@@ -36,7 +36,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "utils/Editor.jsx"
   ],
   "exclude": [
     "node_modules"
