@@ -1,24 +1,16 @@
 'use client'
+import Card from '@/components/Card'
+import { Button } from '@/components/ui/button'
+import { cn } from '@/utils/cn'
 import Serialize from '@/utils/Editor'
 import { createClient } from '@/utils/supabase/client'
 import { convertToOriginalTitle } from '@/utils/utils'
+import { ChevronRightIcon } from '@radix-ui/react-icons'
+import localFont from 'next/font/local'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import "../../globals.css"
-import localFont from 'next/font/local';
-import { cn } from '@/utils/cn'
-import { Button } from '@/components/ui/button'
-import Card from '@/components/Card'
-import { ChevronRightIcon } from '@radix-ui/react-icons'
 
-
-interface content {
-    content:
-    | {
-        [k: string]: unknown;
-    }[]
-    | null;
-}
 
 const AerialFont = localFont({
     src: "../../fonts/AeonikProTRIAL-Bold.woff",
@@ -132,7 +124,9 @@ const Page = () => {
                 </div>
                 <div className='flex flex-col gap-5'>
                     <h2 className='font-bold text-3xl mb-16'>{originalTitle}</h2>
-                    <div className='text-lg text-gray-600 font-thin'>{Serialize(content)}</div>
+                    <div className='text-lg text-gray-600 font-thin'>
+                        <Serialize>{content}</Serialize>
+                    </div>
                 </div>
             </div>
             <h2 className='ml-32 font-bold text-7xl'> Recent Posts</h2>

@@ -1,9 +1,6 @@
-
-import Navbar from "@/components/Navbar";
 import React from "react";
 import { headers } from "next/headers"
-import Footer from "@/components/Footer";
-
+import '@payloadcms/next/css'
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -23,17 +20,12 @@ export default async function RootLayout({
   const heads = await headers()
   const pathname = heads.get("x-current-path")
 
-
   return (
     <html lang="en" dir="LTR" suppressHydrationWarning>
       <body
         suppressHydrationWarning
       >
         <>
-          {!pathname?.startsWith("/admin") && (
-            <Navbar />
-          )}
-
           {children}
         </>
       </body>

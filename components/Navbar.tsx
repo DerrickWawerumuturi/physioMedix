@@ -1,15 +1,15 @@
 'use client'
-import React, { useEffect } from 'react'
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu'
-import { Button, buttonVariants } from './ui/button';
-import Link from 'next/link';
-import { createClient } from '@/utils/supabase/client';
-import { User } from '@supabase/supabase-js';
 import { cn } from '@/utils/cn';
+import { createClient } from '@/utils/supabase/client';
 import { allowedEmails } from '@/utils/utils';
+import { User } from '@supabase/supabase-js';
 import localFont from 'next/font/local';
+import Link from 'next/link';
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from 'react';
+import "../app/globals.css";
+import { Button, buttonVariants } from './ui/button';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
 
 interface catogeryProps {
     id: number;
@@ -92,6 +92,7 @@ const Navbar = () => {
                             Dashboard
                         </Link>
                     )}
+                    {/* <ModeToggle /> */}
                 </div>
             </nav >
         </div >

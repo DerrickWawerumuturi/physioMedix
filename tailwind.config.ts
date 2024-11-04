@@ -5,6 +5,7 @@ import { Config } from 'tailwindcss'
 const { default: flattenColorPalette } = require('tailwindcss/lib/util/flattenColorPalette')
 
 const config: Config = {
+  darkMode: 'class',
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',

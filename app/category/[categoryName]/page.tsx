@@ -1,12 +1,9 @@
 'use client'
+import Card from '@/components/Card'
 import { createClient } from '@/utils/supabase/client'
 import { useParams, useSearchParams } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import "../../globals.css"
-import { Post } from '@/payload-types'
-import Card from '@/components/Card'
-import { buttonVariants } from '@/components/ui/button'
-import { ChevronRightIcon } from '@radix-ui/react-icons'
 
 const Page = () => {
     const searchParams = useSearchParams()

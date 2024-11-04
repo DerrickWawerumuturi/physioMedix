@@ -17,24 +17,30 @@ export const Media: CollectionConfig = {
         width: 400,
         height: 300,
         position: 'center',
+        generateImageName: ({ height, sizeName, extension, width }) => {
+          return `custom-${sizeName}-${height}-${width}.${extension}`
+        },
       },
       {
         name: 'card',
         width: 768,
         height: 1024,
         position: 'center',
+        generateImageName: ({ height, sizeName, extension, width }) => {
+          return `custom-${sizeName}-${height}-${width}.${extension}`
+        },
       },
       {
         name: 'tablet',
         width: 1024,
         height: undefined,
         position: 'center',
+        generateImageName: ({ height, sizeName, extension, width }) => {
+          return `custom-${sizeName}-${height}-${width}.${extension}`
+        },
       },
     ],
     mimeTypes: ['image/*'],
-    adminThumbnail: (doc) => {
-      return `/media/${doc.doc.filename}`
-    },
   },
   fields: [
     {

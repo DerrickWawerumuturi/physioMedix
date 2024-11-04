@@ -27,7 +27,7 @@ const GridBox = () => {
     const [posts, setPosts] = useState<PostProps[]>([]);
     const [covers, setCovers] = useState<{ [key: number]: string }>({});
     const [postCategories, setPostCategories] = useState<{ [key: number]: string[] }>({});
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const supabase = createClient();
