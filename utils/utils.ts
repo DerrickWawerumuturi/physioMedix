@@ -113,6 +113,13 @@ export const allowedEmails = [
   'simonmuriukimars@gmail.com',
   'wawerumuturi57@gmail.com',
 ]
+export const parseStringify = (value: any) => JSON.parse(JSON.stringify(value))
+
+export const convertFileToUrl = (file: File) => URL.createObjectURL(file)
+
+export const removeSpecialCharacters = (value: string) => {
+  return value.replace(/[^\w\s]/gi, '')
+}
 
 export const testimonials = [
   {
