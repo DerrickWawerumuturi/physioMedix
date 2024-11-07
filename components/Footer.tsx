@@ -11,18 +11,18 @@ const AerialFont = localFont({
 const Footer = () => {
     return (
 
-        <footer className="bg-gradient-to-r lg:from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% bottom-0 bg-white rounded-lg shadow dark:bg-gray-900 m-4">
+        <footer className="bg-gradient-to-r lg:from-indigo-200 from-10% via-sky-500 via-30% to-emerald-500 to-90%  bg-white shadow dark:bg-gray-900  bottom-0 lg:pb-16 lg:pt-2">
             <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
                 <div className="sm:flex sm:items-center sm:justify-between">
                     <Link href={"/"}>
-                        <h2 className={`self-center text-2xl font-semibold whitespace-nowrap dark:text-white ${AerialFont.className}`}>PhysioMedix</h2>
+                        <h2 className={`hover:underline  self-center text-2xl font-semibold whitespace-nowrap dark:text-white ${AerialFont.className}`}>PhysioMedix</h2>
                     </Link>
                     <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
                         <li>
                             <a href="#" className="hover:underline me-4 md:me-6">Licensing</a>
                         </li>
                         <li>
-                            <a href="https://wa.me/+25426671319" className="hover:underline">Contact</a>
+                            <a href="https://wa.me/+254726671319" className="hover:underline">Contact</a>
                         </li>
                     </ul>
                 </div>

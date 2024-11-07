@@ -4,22 +4,29 @@ import GridBox from "@/components/GridBox";
 import Navbar from "@/components/Navbar";
 import { Meteors } from "@/components/ui/meteors";
 import { Highlight } from "components/ui/hero-highlight";
+import localFont from "next/font/local";
 import { cn } from "utils/cn";
 
 
 
+const AerialFont = localFont({
+  src: "./fonts/AeonikProTRIAL-Bold.woff",
+  weight: "400",
+  style: "normal"
+})
+
 export default function Home() {
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       <Navbar />
-      <div className={cn('h-screen max-h-screen py-20 items-center text-center max-w-3xl mx-auto flex flex-col  gap-5 sm:overflow-x-hidden md:overflow-x-visible')} suppressHydrationWarning>
+      <main className={cn('py-20 items-center text-center max-w-3xl mx-auto flex flex-col  gap-5 sm:overflow-x-hidden md:overflow-x-visible')} suppressHydrationWarning>
 
         <div className="flex flex-col items-center">
           <h1
             className={cn("text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl mt-7 text-center max-w-3xl")}>
             Empower Your Movement, <Highlight>Transform Your Health.</Highlight>
           </h1>
-          <p className="mt-6 text-lg text-muted-foreground text-center max-w-2xl">
+          <p className={`mt-6 text-lg text-muted-foreground text-center max-w-2xl ${AerialFont.className}`}>
             Discover expert tips, treatments, and exercises
             designed to help you move better,live pain-free,
             and achieve lasting well-being.
@@ -52,11 +59,11 @@ export default function Home() {
               </div>
 
               <h1 className="font-bold text-xl text-white mb-4 relative z-50">
-                What&apos;s PhysioPure about?
+                What&apos;s PhysioMedix about?
               </h1>
 
-              <p className="font-normal text-base text-slate-500 mb-4 relative z-50 text-left">
-                It exploring the science of physiology, offering readers in-depth insights into how the human body functions. From explaining the basics of organ systems to discussing the latest research in the field, the blog aims to make complex biological concepts
+              <p className={`font-normal text-base text-slate-500 mb-4 relative z-50 text-left ${AerialFont.className}`}>
+                Consist of articles and blogs that explore the science of physiology, offering readers in-depth insights into how the human body functions. From explaining the basics of organ systems to discussing the latest research in the field, the main aim being to make complex biological concepts simple to understand.
               </p>
 
               {/* Meaty part - Meteor effect */}
@@ -64,12 +71,11 @@ export default function Home() {
             </div>
           </div>
         </div>
-
-        <div className="w-full lg:-ml-64">
-          <Footer />
-        </div>
-
+      </main>
+      <div className="bottom-0">
+        <Footer />
       </div>
-    </>
+
+    </div>
   );
 }
