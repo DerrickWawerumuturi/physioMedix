@@ -107,7 +107,7 @@ const AuthForm = () => {
                     render={({ field }) => (
                         <FormItem>
                             {/* Increase the size of the label */}
-                            <FormLabel className="text-xl font-semibold">Username</FormLabel>
+                            <FormLabel className="text-xl font-semibold">Email</FormLabel>
                             <FormControl>
                                 {/* Increase the size of the input */}
                                 <Input className="text-lg p-4" placeholder="simon" {...field} />
