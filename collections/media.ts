@@ -59,7 +59,7 @@ export const Media: CollectionConfig = {
         if (operation === 'create' || operation === 'update') {
           const updatedDoc = {
             ...doc,
-            url: `/media/${doc.filename}`,
+            url: `public/media/${doc.filename}`,
           }
           return updatedDoc
         }
