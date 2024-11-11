@@ -1,9 +1,12 @@
+/* eslint-disable react/no-children-prop */
 'use client'
 import React, { Fragment, useEffect, useState } from 'react'
 import escapeHTML from 'escape-html'
 import { Text } from 'slate'
 import Image from 'next/image'
 import { getImages } from './GetImages'
+
+const SUPABASE_URL = 'https://eejowrrhyyummrlskjln.supabase.co' // Replace with your actual Supabase URL
 
 const Serialize = ({ children }) => {
   const [imageData, setImageData] = useState({})
@@ -25,7 +28,8 @@ const Serialize = ({ children }) => {
         const newImageData = {}
         results.forEach((result, index) => {
           if (result && result.length > 0) {
-            newImageData[uploadIds[index]] = result[0].filename
+            const filename = result[0].filename
+            newImageData[uploadIds[index]] = filename
           }
         })
         setImageData(newImageData)
@@ -88,11 +92,17 @@ const Serialize = ({ children }) => {
           case 'upload':
             const imageId = Number(node.value)
             const filename = imageData[imageId]
+            console.log('filename', filename)
+
+            // Construct the full Supabase URL
+            const imageUrl = filename
+              ? `${SUPABASE_URL}/storage/v1/object/public/media/${filename}`
+              : ''
 
             return filename ? (
               <Image
                 key={`upload-${imageId}`}
-                src={`/media/${filename}`} // Ensure your path is correct
+                src={imageUrl} // Use the correct Supabase URL
                 alt={`${filename}`}
                 width={200}
                 height={200}

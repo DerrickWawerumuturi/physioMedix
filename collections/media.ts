@@ -53,18 +53,18 @@ export const Media: CollectionConfig = {
       },
     },
   ],
-  hooks: {
-    afterChange: [
-      ({ doc, operation }) => {
-        if (operation === 'create' || operation === 'update') {
-          const updatedDoc = {
-            ...doc,
-            url: `public/media/${doc.filename}`,
-          }
-          return updatedDoc
-        }
-        return doc
-      },
-    ],
-  },
+  // hooks: {
+  //   afterChange: [
+  //     ({ doc, operation }) => {
+  //       if (operation === 'create' || operation === 'update') {
+  //         const updatedDoc = {
+  //           ...doc,
+  //           url: `public/media/${doc.filename}`,
+  //         }
+  //         return updatedDoc
+  //       }
+  //       return doc
+  //     },
+  //   ],
+  // },
 }

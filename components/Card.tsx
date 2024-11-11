@@ -45,7 +45,7 @@ const Card = ({
             <div className='relative h-48 w-full'>
                 {typeof cover === "string" && (
                     <Image
-                        src={`/media/${cover}`}
+                        src={`${cover}`}
                         alt={title}
                         layout="fill"
                         objectFit="cover"

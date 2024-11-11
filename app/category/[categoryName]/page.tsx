@@ -58,7 +58,12 @@ const Page = () => {
 
                 // Create a mapping of cover ID to filename
                 const coverMap = (coverData || []).reduce((map, item) => {
-                    map[item.id] = item.filename;
+                    const { data } = supabase
+                        .storage
+                        .from('media')
+                        .getPublicUrl(item.filename); // Generate the public URL
+                    console.log('Public urls:', data.publicUrl)
+                    map[item.id] = data.publicUrl; // Store the URL in the map
                     return map;
                 }, {} as { [key: number]: string });
 
