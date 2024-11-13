@@ -34,7 +34,6 @@ const Navbar = () => {
             const { data } = await supabase.auth.getUser()
             setUser(data.user)
             const { data: categories } = await supabase.from("category").select()
-            console.log("catgeories are", categories)
             if (categories && categories.length > 0) {
                 setCategories(categories)
             }

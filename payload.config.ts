@@ -31,7 +31,7 @@ const transporter = nodemailer.createTransport({
 
 const emailAdapter: EmailAdapter = ({ payload }) => ({
   name: 'PhysioMedix',
-  defaultFromAddress: 'simonmuriukimars@gmail.com',
+  defaultFromAddress: 'no-reply@physiomedix.com',
   defaultFromName: 'PhysioMedix',
 
   async sendEmail({ to, subject, html, text }) {

@@ -92,7 +92,6 @@ const Serialize = ({ children }) => {
           case 'upload':
             const imageId = Number(node.value)
             const filename = imageData[imageId]
-            console.log('filename', filename)
 
             // Construct the full Supabase URL
             const imageUrl = filename
@@ -106,7 +105,7 @@ const Serialize = ({ children }) => {
                 alt={`${filename}`}
                 width={200}
                 height={200}
-                className="pt-5"
+                className="mt-16 rounded-md"
               />
             ) : (
               <p key={`loading-${imageId}`}>Loading image...</p>

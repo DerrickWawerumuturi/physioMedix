@@ -52,7 +52,6 @@ const GridBox = () => {
                         .storage
                         .from('media')
                         .getPublicUrl(item.filename); // Generate the public URL
-                    console.log('Public urls:', data.publicUrl)
                     map[item.id] = data.publicUrl; // Store the URL in the map
                     return map;
                 }, {} as { [key: number]: string });
@@ -68,7 +67,7 @@ const GridBox = () => {
                 if (error) {
                     console.error("Error fetching category relations:", error);
                 } else {
-                    console.log("Category Relations:", categoryRelations);
+
 
                     // Extract unique category IDs
                     const categoryIds = categoryRelations.map(relation => relation.category_id);
@@ -82,8 +81,6 @@ const GridBox = () => {
                     if (categoryError) {
                         console.error("Error fetching categories:", categoryError);
                     } else {
-                        console.log("Categories:", categories);
-
                         // Create a mapping of post IDs to their categories
                         const categoriesMap: { [key: number]: string[] } = {};
                         categoryRelations.forEach(relation => {

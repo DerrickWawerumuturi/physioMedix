@@ -62,4 +62,16 @@
   .max-width {
     width: max-content;
   }
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px); /* Optional: for a slight slide-in effect */
+    transition:
+      opacity 0.6s ease-out,
+      transform 0.6s ease-out;
+  }
+
+  .fade-in-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
