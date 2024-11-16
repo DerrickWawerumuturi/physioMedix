@@ -11,8 +11,8 @@ export const Categories: CollectionConfig = {
   access: {
     read: isLoggedIn,
     create: isLoggedIn,
-    update: yourOwnCommentsOrCategory,
-    delete: yourOwnCommentsOrCategory,
+    update: isLoggedIn,
+    delete: isLoggedIn,
   },
   fields: [
     {

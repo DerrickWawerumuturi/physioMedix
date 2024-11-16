@@ -1,21 +1,17 @@
 'use client'
 import Card from '@/components/Card'
-import { Button, buttonVariants } from '@/components/ui/button'
+import Navbar from '@/components/Navbar'
 import { cn } from '@/utils/cn'
 import Serialize from '@/utils/Editor'
 import { createClient } from '@/utils/supabase/client'
 import { convertToOriginalTitle, formatDate } from '@/utils/utils'
-import { ChevronRightIcon } from '@radix-ui/react-icons'
+import { ArrowBigLeft, ArrowLeft, Clock } from 'lucide-react'
 import localFont from 'next/font/local'
+import Image from 'next/image'
+import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import "../../globals.css"
-import Link from 'next/link'
-import { ArrowBigLeft, ArrowLeft, Clock } from 'lucide-react'
-import Image from 'next/image'
-import Navbar from '@/components/Navbar'
-
-
 const AerialFont = localFont({
     src: "../../fonts/AeonikProTRIAL-Bold.woff",
     weight: "400",

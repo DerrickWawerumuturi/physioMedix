@@ -63,7 +63,7 @@ export default function Home() {
               </h1>
 
               <p className={`font-normal text-base text-slate-500 mb-4 relative z-50 text-left ${AerialFont.className}`}>
-                Consist of articles and blogs that explore the science of physiology, offering readers in-depth insights into how the human body functions. From explaining the basics of organ systems to discussing the latest research in the field, the main aim being to make complex biological concepts simple to understand.
+                A comprehensive platform dedicated to promoting awareness, education, and resources about physiotherapy. The website serves as a hub for physiotherapists, patients, students, and anyone interested in physical rehabilitation and movement science
               </p>
 
               {/* Meaty part - Meteor effect */}
