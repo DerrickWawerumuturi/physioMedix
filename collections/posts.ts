@@ -20,9 +20,8 @@ export const Posts: CollectionConfig = {
       required: true,
     },
     {
-      name: 'subtitle',
-      type: 'textarea',
-      required: true,
+      name: 'content',
+      type: 'richText',
     },
     {
       name: 'type',

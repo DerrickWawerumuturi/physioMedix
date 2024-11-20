@@ -180,12 +180,6 @@ const Page = () => {
 
                 <div className={`flex flex-col gap-5 bg-white rounded-xl max-w-5xl ${LatoRegular.className} p-14`}>
                     <h2 className='font-bold text-5xl mb-6'>{originalTitle}</h2>
-                    {/* <div
-                        className='text-2xl whitespace-pre-wrap mb-5'
-                        dangerouslySetInnerHTML={{
-                            __html: Serialize(content).join(''),
-                        }}
-                    /> */}
                     <SerializeComponent>{content}</SerializeComponent>
                 </div>
             </div>
