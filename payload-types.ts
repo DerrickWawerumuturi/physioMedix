@@ -14,7 +14,6 @@ export interface Config {
     users: User;
     media: Media;
     posts: Post;
-    comments: Comment;
     category: Category;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -24,7 +23,6 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
-    comments: CommentsSelect<false> | CommentsSelect<true>;
     category: CategorySelect<false> | CategorySelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -94,21 +92,6 @@ export interface Post {
   id: number;
   title: string;
   subtitle: string;
-  content?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
   type?: ('blog' | 'article') | null;
   status?: ('published' | 'draft') | null;
   categories: (number | Category)[];
@@ -174,17 +157,6 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "comments".
- */
-export interface Comment {
-  id: number;
-  comment: string;
-  post?: (number | Post)[] | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -201,10 +173,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'posts';
         value: number | Post;
-      } | null)
-    | ({
-        relationTo: 'comments';
-        value: number | Comment;
       } | null)
     | ({
         relationTo: 'category';
@@ -333,21 +301,10 @@ export interface MediaSelect<T extends boolean = true> {
 export interface PostsSelect<T extends boolean = true> {
   title?: T;
   subtitle?: T;
-  content?: T;
   type?: T;
   status?: T;
   categories?: T;
   cover?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "comments_select".
- */
-export interface CommentsSelect<T extends boolean = true> {
-  comment?: T;
-  post?: T;
   updatedAt?: T;
   createdAt?: T;
 }

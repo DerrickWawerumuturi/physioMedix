@@ -25,10 +25,6 @@ export const Posts: CollectionConfig = {
       required: true,
     },
     {
-      name: 'content',
-      type: 'richText',
-    },
-    {
       name: 'type',
       type: 'select',
       defaultValue: 'blog',

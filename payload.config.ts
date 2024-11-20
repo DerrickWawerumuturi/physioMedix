@@ -8,7 +8,6 @@ import sharp from 'sharp'
 
 import { Posts } from './collections/posts'
 import { Categories } from './collections/categories'
-import { Comments } from 'collections/comments'
 import { Media } from 'collections/media'
 import { Users } from 'collections/users'
 import nodemailer from 'nodemailer'
@@ -26,7 +25,7 @@ const transporter = nodemailer.createTransport({
     user: process.env.SMTP_USER, // SMTP user
     pass: process.env.SMTP_PASSWORD, // SMTP password
   },
-  secure: false, // Set to true if using port 465, otherwise false for 587
+  secure: false,
 })
 
 const emailAdapter: EmailAdapter = ({ payload }) => ({
@@ -60,7 +59,7 @@ export default buildConfig({
     },
   },
   email: emailAdapter,
-  collections: [Users, Media, Posts, Comments, Categories],
+  collections: [Users, Media, Posts, Categories],
   editor: lexicalEditor({}),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

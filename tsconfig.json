@@ -37,7 +37,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "utils/Editor.jsx"
+    "utils/serialise/NewRichTextParser.tsx"
   ],
   "exclude": [
     "node_modules"

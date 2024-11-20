@@ -2,7 +2,6 @@
 import Card from '@/components/Card'
 import Navbar from '@/components/Navbar'
 import { cn } from '@/utils/cn'
-import Serialize from '@/utils/Editor'
 import { createClient } from '@/utils/supabase/client'
 import { convertToOriginalTitle, formatDate } from '@/utils/utils'
 import { ArrowBigLeft, ArrowLeft, Clock } from 'lucide-react'
@@ -12,11 +11,7 @@ import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import "../../globals.css"
-const AerialFont = localFont({
-    src: "../../fonts/AeonikProTRIAL-Bold.woff",
-    weight: "400",
-    style: "normal"
-})
+import { SerializeComponent } from '@/utils/serialise/NewRichTextParser'
 
 const LatoBold = localFont({
     src: "../../fonts/Lato-Bold.ttf",
@@ -185,9 +180,13 @@ const Page = () => {
 
                 <div className={`flex flex-col gap-5 bg-white rounded-xl max-w-5xl ${LatoRegular.className} p-14`}>
                     <h2 className='font-bold text-5xl mb-6'>{originalTitle}</h2>
-                    <div className='text-2xl'>
-                        <Serialize>{content}</Serialize>
-                    </div>
+                    {/* <div
+                        className='text-2xl whitespace-pre-wrap mb-5'
+                        dangerouslySetInnerHTML={{
+                            __html: Serialize(content).join(''),
+                        }}
+                    /> */}
+                    <SerializeComponent>{content}</SerializeComponent>
                 </div>
             </div>
             <Link href="/" className={`${LatoBold.className} flex space-x-2 sm:ml-20 lg:ml-36 mb-11`}>
