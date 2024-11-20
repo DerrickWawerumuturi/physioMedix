@@ -91,7 +91,21 @@ export interface User {
 export interface Post {
   id: number;
   title: string;
-  subtitle: string;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   type?: ('blog' | 'article') | null;
   status?: ('published' | 'draft') | null;
   categories: (number | Category)[];
@@ -300,7 +314,7 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface PostsSelect<T extends boolean = true> {
   title?: T;
-  subtitle?: T;
+  content?: T;
   type?: T;
   status?: T;
   categories?: T;
