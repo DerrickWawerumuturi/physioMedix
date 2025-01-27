@@ -3,9 +3,10 @@ import Card from '@/components/Card'
 import { createClient } from '@/utils/supabase/client'
 import { useParams, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import "../../globals.css"
+import '../../globals.css'
 import { ChevronRight, House } from 'lucide-react'
 import Link from 'next/link'
+import { useTheme } from 'next-themes'
 
 const Page = () => {
     const searchParams = useSearchParams()
@@ -14,6 +15,7 @@ const Page = () => {
     const id = searchParams.get('id')
     const [covers, setCovers] = useState<{ [key: number]: string }>({});
     const [posts, setPosts] = useState<PostProps[]>([])
+    const { theme } = useTheme()
 
     useEffect(() => {
         const fetchPosts = async () => {
@@ -76,14 +78,13 @@ const Page = () => {
 
 
     return (
-        <div className='flex flex-col gap-6 justify-center align-middle bg-gradient-to-t from-indigo-100 min-h-screen'>
-
+        <div className={`min-h-screen flex flex-col gap-6 justify-center align-middle ${theme === "light" ? "bg-gradient-to-t from-indigo-100 min-h-screen": "bg-black"}`}>
             <div className='flex space-x-3 sm:ml-16 lg:ml-10 lg:-mt-28'>
                 <Link href={"/"} className='flex hover:underline transform transition duration-300 hover:scale-110'>
-                    <House />
+                    <House className={`${theme === 'dark' && 'text-green-400'}`}/>
                 </Link>
-                <ChevronRight />
-                <h2 className={`text-5xl font-semibold -mt-2 hover:underline hover:cursor-pointer`}>{category}</h2>
+                <ChevronRight className={`${theme === 'dark' && 'text-green-400'}`}/>
+                <h2 className={`text-5xl font-semibold -mt-2 hover:underline hover:cursor-pointer ${theme === "dark" && "text-green-400"}`}>{category}</h2>
             </div>
             <div className='sm:ml-20 mt-10 grid sm:grid-cols-1 md:grid-cols-2  lg:grid-cols-3 gap-10 sm:max-w-3xl lg:max-w-7xl lg:max-width md:pl-5 lg:pl-0 md:pr-5 lg:pr-0 lg:ml-7 '>
                 {posts && posts.map((post, index) => (

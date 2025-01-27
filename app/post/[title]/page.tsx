@@ -12,6 +12,7 @@ import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import "../../globals.css"
 import { SerializeComponent } from '@/utils/serialise/NewRichTextParser'
+import { useTheme } from 'next-themes'
 
 const LatoBold = localFont({
     src: "../../fonts/Lato-Bold.ttf",
@@ -37,6 +38,7 @@ const Page = () => {
     const [postCategories, setPostCategories] = useState<{ [key: number]: string[] }>({});
     const [imageUrl, setImageUrl] = useState<string>()
     const [updatedAt, setUpdatedAt] = useState<string>()
+    const { theme } = useTheme()
 
     useEffect(() => {
         const fetchContent = async () => {
@@ -141,13 +143,9 @@ const Page = () => {
 
 
     return (
-        <div className='flex flex-col min-h-screen bg-blue-50'>
-            <div className='mb-5'>
-                <Navbar />
-            </div>
-
+        <div className={`flex flex-col min-h-screen ${theme === 'dark' ? "bg-black" : " bg-blue-50" }`}>
             <div className={cn('flex flex-col sm:mx-4 lg:mx-44  mb-20 space-y-14')}>
-                <div className={`flex flex-row  bg-gray-950 rounded-xl h-[400px]  text-white`}>
+                <div className={`flex flex-row  mt-14 rounded-xl h-[400px]  text-white ${theme === "light" ? "bg-gray-950": "bg-blue-800" }`}>
                     <div className={`flex flex-col space-y-11 lg:w-1/2 p-7 ml-7 ${LatoBold.className}`}>
                         <Link href="/" className='flex space-x-2 mt-6 hover:underline max-w-sm'>
                             <ArrowLeft className='h-6 w-6 mt-0.5' />
@@ -178,17 +176,17 @@ const Page = () => {
                     </div>
                 </div>
 
-                <div className={`flex flex-col gap-5 bg-white rounded-xl max-w-5xl ${LatoRegular.className} p-14`}>
+                <div className={`flex flex-col gap-5 rounded-xl max-w-5xl ${LatoRegular.className} p-14 ${theme === "dark" ? "bg-gray-600 text-white": "bg-white" }`}>
                     <h2 className='font-bold text-5xl mb-6'>{originalTitle}</h2>
                     <SerializeComponent>{content}</SerializeComponent>
                 </div>
             </div>
             <Link href="/" className={`${LatoBold.className} flex space-x-2 sm:ml-20 lg:ml-36 mb-11`}>
-                <ArrowBigLeft />
-                <p className='text-2xl'>Back</p>
+                <ArrowBigLeft className={`${theme === "dark" && "text-white"}`}/>
+                <p className={`text-2xl hover:underline ${theme === "dark" && "text-white"}`}>Back</p>
             </Link>
 
-            <h2 className={`ml-20 lg:ml-36 font-bold text-6xl ${LatoBold.className}`}>Maybe you&apos;d be interested in this too</h2>
+            <h2 className={`ml-20 lg:ml-36 font-bold text-6xl ${LatoBold.className} ${theme === "dark" && "text-green-400"}`}>Maybe you&apos;d be interested in this too</h2>
             <div className={`fade-in fade-in-visible my-10 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 sm:max-w-3xl lg:max-w-7xl lg:max-width md:pl-5 lg:pl-0 sm:mx-14 lg:mx-36 ${LatoRegular.className}`}>
                 {posts && posts.map((post, index) => (
                     <Card

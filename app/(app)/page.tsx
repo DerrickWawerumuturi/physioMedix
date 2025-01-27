@@ -1,30 +1,28 @@
-
-import Footer from "@/components/Footer";
-import GridBox from "@/components/GridBox";
-import Navbar from "@/components/Navbar";
-import { Meteors } from "@/components/ui/meteors";
-import { Highlight } from "components/ui/hero-highlight";
-import localFont from "next/font/local";
-import { cn } from "utils/cn";
-
+'use client'
+import GridBox from '@/components/GridBox'
+import { Meteors } from '@/components/ui/meteors'
+import { Highlight } from '@/components/ui/hero-highlight'
+import localFont from 'next/font/local'
+import { cn } from '@/utils/cn'
+import { useTheme } from 'next-themes'
 
 
 const AerialFont = localFont({
-  src: "./fonts/AeonikProTRIAL-Bold.woff",
+  src: "../fonts/AeonikProTRIAL-Bold.woff",
   weight: "400",
   style: "normal"
 })
 
 export default function Home() {
-  return (
-    <div className="min-h-screen flex flex-col">
-      <Navbar />
-      <main className={cn('py-20 items-center text-center max-w-3xl mx-auto flex flex-col  gap-5 sm:overflow-x-hidden md:overflow-x-visible')} suppressHydrationWarning>
+  const { theme } = useTheme()
 
+  return (
+    <div className={`min-h-screen flex flex-col ${theme === 'dark' && 'bg-black text-white'}`} suppressHydrationWarning={true}>
+      <main className={cn('py-20 items-center text-center max-w-3xl mx-auto flex flex-col  gap-5 sm:overflow-x-hidden md:overflow-x-visible')} suppressHydrationWarning>
         <div className="flex flex-col items-center">
           <h1
-            className={cn("text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl mt-7 text-center max-w-3xl")}>
-            Empower Your Movement, <Highlight>Transform Your Health.</Highlight>
+            className={`${cn("text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl mt-7 text-center max-w-3xl")} ${theme === 'dark' && 'text-blue-400'}`}>
+            Empower Your Movement, <Highlight className={`${theme === 'dark' && 'text-green-400'}`}>Transform Your Health.</Highlight>
           </h1>
           <p className={`mt-6 text-lg text-muted-foreground text-center max-w-2xl ${AerialFont.className}`}>
             Discover expert tips, treatments, and exercises
@@ -72,10 +70,6 @@ export default function Home() {
           </div>
         </div>
       </main>
-      <div className="bottom-0">
-        <Footer />
-      </div>
-
     </div>
   );
 }

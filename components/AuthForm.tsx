@@ -1,23 +1,16 @@
-"use client"
+'use client'
 
-import { Button } from "@/components/ui/button"
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { createUser } from "@/utils/payload.auth"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Loader2 } from "lucide-react"
-import { useRouter } from "next/navigation"
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-
+import { Button } from '@/components/ui/button'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { createUser } from '@/utils/payload.auth'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Loader2 } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { useTheme } from 'next-themes'
 
 
 const formSchema = z.object({
@@ -31,6 +24,7 @@ const formSchema = z.object({
 const AuthForm = () => {
     const router = useRouter()
     const [isLoading, setIsLoading] = useState(false)
+    const { theme } = useTheme()
 
 
 
@@ -75,7 +69,7 @@ const AuthForm = () => {
                         render={({ field }) => (
                             <FormItem>
                                 {/* Increase the size of the label */}
-                                <FormLabel className="text-xl font-semibold">First Name</FormLabel>
+                                <FormLabel className={`text-xl font-semibold ${theme === 'dark' && "text-white"}`}>First Name</FormLabel>
                                 <FormControl>
                                     {/* Increase the size of the input */}
                                     <Input className="text-lg p-4" placeholder="simon" {...field} />
@@ -90,7 +84,7 @@ const AuthForm = () => {
                         render={({ field }) => (
                             <FormItem>
                                 {/* Increase the size of the label */}
-                                <FormLabel className="text-xl font-semibold">Last Name</FormLabel>
+                                <FormLabel className={`text-xl font-semibold ${theme === 'dark' && "text-white"}`}>Last Name</FormLabel>
                                 <FormControl>
                                     {/* Increase the size of the input */}
                                     <Input className="text-lg p-4" placeholder="muturi" {...field} />
@@ -107,7 +101,7 @@ const AuthForm = () => {
                     render={({ field }) => (
                         <FormItem>
                             {/* Increase the size of the label */}
-                            <FormLabel className="text-xl font-semibold">Email</FormLabel>
+                            <FormLabel className={`text-xl font-semibold ${theme === 'dark' && "text-white"}`}>Email</FormLabel>
                             <FormControl>
                                 {/* Increase the size of the input */}
                                 <Input className="text-lg p-4" placeholder="simon" {...field} />
@@ -121,7 +115,7 @@ const AuthForm = () => {
                     name="password"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel className="text-xl font-semibold">Password</FormLabel>
+                            <FormLabel className={`text-xl font-semibold ${theme === 'dark' && "text-white"}`}>Password</FormLabel>
                             <FormControl>
                                 <Input className="text-lg p-4" placeholder="*****" {...field} type='password' />
                             </FormControl>
@@ -129,17 +123,22 @@ const AuthForm = () => {
                         </FormItem>
                     )}
                 />
+              <div className={"flex justify-center"}>
                 <Button
-                    type="submit"
-                    disabled={isLoading}
+                  type="submit"
+                  disabled={isLoading}
+                  variant={"green"}
+                  className={"text-lg"}
                 >
-                    {
-                        isLoading ?
-                            <Loader2 className="animate-spin" />
-                            : 'Sign Up'
-                    }
+                  {
+                    isLoading ?
+                      <Loader2 className="animate-spin" />
+                      : 'Sign Up'
+                  }
 
                 </Button>
+              </div>
+
             </form>
         </Form>
 

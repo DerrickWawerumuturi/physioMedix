@@ -10,6 +10,8 @@ import { useEffect, useState } from 'react';
 import "../app/globals.css";
 import { Button, buttonVariants } from './ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
+import { ModeToggle } from '@/components/ui/modeToogle'
+import { useTheme } from 'next-themes'
 
 interface catogeryProps {
     id: number;
@@ -27,6 +29,7 @@ const Navbar = () => {
     const [categories, setCategories] = useState<catogeryProps[]>([])
     const router = useRouter();
     const [user, setUser] = useState<User | null>(null)
+    const {theme} = useTheme()
 
     useEffect(() => {
         const categoriesList = async () => {
@@ -47,13 +50,12 @@ const Navbar = () => {
     }
 
     return (
-        <div className="flex justify-center z-50 bg-white top-0"
-        >
-            <nav className="flex rounded-lg shadow-md p-2 px-4 justify-between w-1/2"
+      <div className={`flex justify-center ${theme === 'dark' && "bg-black"}`}>
+            <nav className={`z-50 flex mx-auto rounded-lg shadow-md p-2 px-4 justify-between w-1/2 ${theme === 'dark' && "border border-gray-600 mt-1"}`}
             >
                 <div className="flex gap-1 mt-1">
                     {/* <Stethoscope className="mt-1" /> */}
-                    <h2 className={`font-semibold text-lg cursor-pointer ${AerialFont.className}`} onClick={() => router.push("/")}>PhysioMedix</h2>
+                    <h2 className={`font-semibold text-lg cursor-pointer ${AerialFont.className}  ${theme === 'dark' && "text-white"}`} onClick={() => router.push("/")}>PhysioMedix</h2>
                 </div>
                 <div className="flex gap-2 justify-end">
                     {/* Categories bar */}
@@ -64,7 +66,7 @@ const Navbar = () => {
                         >
                             <Button
                                 variant={"ghost"}
-                                className={cn(`cursor-pointer text-left font-semibold pr-2 lg:block ${AerialFont.className}`, {
+                                className={cn(`cursor-pointer text-left font-semibold pr-2 lg:block ${AerialFont.className} ${theme === 'dark' && "text-white"}`, {
                                     "sm:flex": !user,
                                     "sm:hidden": user
                                 })}>Categories</Button>
@@ -74,7 +76,7 @@ const Navbar = () => {
                                 {categories?.map((category, index) => (
                                     <DropdownMenuItem
                                         key={index}>
-                                        <h2 className="text-sm font-normal hover:cursor-pointer" onClick={() => handleClick(category.name, category.id)}>
+                                        <h2 className={`text-sm font-normal hover:cursor-pointer ${theme === 'dark' && "text-white"}`} onClick={() => handleClick(category.name, category.id)}>
                                             {category.name}
                                         </h2>
                                     </DropdownMenuItem>
@@ -85,16 +87,21 @@ const Navbar = () => {
 
                     {user && allowedEmails.includes(user.email!) && (
                         <Link
-                            className={`hover:cursor-pointer ${buttonVariants({ variant: "outline" })} ${AerialFont.className}`}
+                            className={`hover:cursor-pointer ${buttonVariants({ variant: "outline" })} ${AerialFont.className} ${theme === 'dark' && "text-white"}`}
                             href={"/admin"}
                         >
                             Dashboard
                         </Link>
                     )}
-                    {/* <ModeToggle /> */}
+                    {!user && (
+                      <Link href={`/sign-in `} className={`${buttonVariants({ variant: "lightBlue" })}`}>
+                          Sign in
+                      </Link>
+                    )}
+                     <ModeToggle />
                 </div>
             </nav >
-        </div >
+      </div>
     )
 }
 

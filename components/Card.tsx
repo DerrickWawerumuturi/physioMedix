@@ -1,9 +1,10 @@
 'use client'
-import Image from "next/image"
-import { Button } from "./ui/button"
-import { formatDate } from "@/utils/utils"
-import { useRouter } from "next/navigation"
-import localFont from "next/font/local"
+import Image from 'next/image'
+import { Button } from './ui/button'
+import { formatDate } from '@/utils/utils'
+import { useRouter } from 'next/navigation'
+import localFont from 'next/font/local'
+import { useTheme } from 'next-themes'
 
 
 const AerialFont = localFont({
@@ -30,6 +31,7 @@ const Card = ({
     categories
 }: CardProps) => {
     const router = useRouter()
+    const { theme } = useTheme()
 
     const onClick = () => {
         const formattedTitle = title.replace(/\s+/g, '-');
@@ -39,7 +41,7 @@ const Card = ({
 
     return (
         <div
-            className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200  transform transition duration-300 hover:scale-105 hover:shadow-lg hover:cursor-pointer sm:max-w-sm lg:max-w-7xl"
+            className={`rounded-xl shadow-lg overflow-hidden border border-gray-200  transform transition duration-300 hover:scale-105 hover:shadow-lg hover:cursor-pointer sm:max-w-sm lg:max-w-7xl ${theme === "dark" && "bg-black"}`}
             onClick={onClick}
         >
             <div className='relative h-48 w-full'>
@@ -62,7 +64,7 @@ const Card = ({
 
                 <p className="text-gray-600 mt-1 text-md font-semibold" suppressHydrationWarning>{formatDate(date)}</p>
             </div>
-            <h2 className={`text-xl font-bold text-left p-4 ${AerialFont.className}`}>{title}</h2>
+            <h2 className={`text-xl font-bold text-left p-4 ${AerialFont.className} ${theme === 'dark' && "text-white" }`}>{title}</h2>
         </div>
     )
 }

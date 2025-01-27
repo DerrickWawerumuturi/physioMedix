@@ -82,44 +82,32 @@ export function SerializeComponent({ children }: { children: import('./types').S
           return null;
         }
 
-        const serializedChildren = node.children ? serialize(node.children).join('') : null;
+        const serializedChildren = node.children ? serialize(node.children).join('') : '';
 
         switch (node.type) {
           case 'linebreak':
             return `<br>`;
+          case 'paragraph':
+            return `<p>${serializedChildren || '<br>'}</p>`;
+
           case 'link':
-            const attributes: {
-              doc?: any;
-              linkType?: 'custom' | 'internal';
-              newTab?: boolean;
-              nofollow?: boolean;
-              rel?: string;
-              sponsored?: boolean;
-              url?: string;
-            } = node.attributes;
+            const fields = node.fields || {}; // Safely access the `fields` property
+            const linkUrl = fields.linkType === 'custom' ? fields.url || '#' : getLinkForPage(fields.doc);
 
-            if (attributes.linkType === 'custom') {
-              return `<a href="${attributes.url}"${attributes.newTab ? ' target=_"blank"' : ''} rel="${attributes?.rel ?? ''}${attributes?.sponsored ? ' sponsored' : ''}${attributes?.nofollow ? ' nofollow' : ''}">${serializedChildren}</a>`;
-            }
+            return `<a style="color: blue" class="underline" href="${linkUrl}" ${
+              fields.newTab ? ' target="_blank"' : ''
+            } rel="${fields.sponsored ? 'sponsored ' : ''}${fields.nofollow ? 'nofollow ' : ''}${fields.rel || ''}">${
+              serializedChildren || '' 
+            }</a>`;
 
-            return `<a href="${getLinkForPage(attributes.doc)}"${attributes.newTab ? ' target=_"blank"' : ''} rel="${attributes?.rel ?? ''}${attributes?.sponsored ? ' sponsored' : ''}${attributes?.nofollow ? ' nofollow' : ''}">${serializedChildren}</a>`;
           case 'list':
             if (node.listType === 'bullet') {
-              return `
-                <ul class="list-disc mb-4 pl-8">
-                  ${serializedChildren}
-                </ul>`;
+              return `<ul class="list-disc mb-4 pl-8">${serializedChildren}</ul>`;
             } else {
-              return `
-                <ol class="list-disc mb-4 pl-8">
-                  ${serializedChildren}
-                </ol>`;
+              return `<ol class="list-decimal mb-4 pl-8">${serializedChildren}</ol>`;
             }
           case 'listitem':
-            return `
-              <li>
-                ${serializedChildren}
-              </li>`;
+            return `<li>${serializedChildren}</li>`;
           case 'upload':
             const imageId = Number(node.value);
             const filename = imageData[imageId];
@@ -129,30 +117,19 @@ export function SerializeComponent({ children }: { children: import('./types').S
               : '';
 
             if (imageUrl) {
-              return `
-                <img
-                  key="upload-${imageId}"
-                  src="${imageUrl}"
-                  alt="${filename}"
-                  width="200"
-                  height="200"
-                  class="mt-16 rounded-md"
-                />
-              `;
+              return `<img key="upload-${imageId}" src="${imageUrl}" alt="${filename}" width="200" height="200" class="mt-16 rounded-md" />`;
             }
             return ''; // Handle case where no image data is available
           case 'heading':
-            return `
-              <${node.tag}>
-                ${serializedChildren}
-              </${node.tag}>`;
+            return `<${node.tag}>${serializedChildren}</${node.tag}>`;
 
           default:
-            return `<p>${serializedChildren ? serializedChildren : '<br>'}</p>`;
+            return serializedChildren || `<p><br></p>`; // Ensure empty paragraphs render
         }
       })
       .filter((node) => node !== null) as string[];
   };
+
 
   return (
     <div
