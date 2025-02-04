@@ -30,6 +30,7 @@ const Navbar = () => {
     const router = useRouter();
     const [user, setUser] = useState<User | null>(null)
     const {theme} = useTheme()
+    const [mounted, setMounted] = useState(false)
 
     useEffect(() => {
         const categoriesList = async () => {
@@ -44,18 +45,31 @@ const Navbar = () => {
         categoriesList()
     }, [])
 
+    useEffect(() => {
+        setMounted(true)
+    }, [])
+
+    if (!mounted) {
+        return null
+    }
+
     const handleClick = (categoryName: string, categoryId: number) => {
         setIsOpen(false);
         router.push(`/category/${categoryName}?id=${categoryId}`)
     }
 
+    // themes
+    const themeMain = theme === 'dark' && "bg-black"
+    const themeNav = theme === 'dark' && "border border-gray-600 mt-1"
+    const themeH2 = theme === 'dark' && "text-white"
+
     return (
-      <div className={`flex justify-center ${theme === 'dark' && "bg-black"}`}>
-            <nav className={`z-50 flex mx-auto rounded-lg shadow-md p-2 px-4 justify-between w-1/2 ${theme === 'dark' && "border border-gray-600 mt-1"}`}
+      <div className={`flex justify-center ${themeMain}`}>
+            <nav className={`z-50 flex mx-auto rounded-lg shadow-md p-2 px-4 justify-between w-1/2 ${themeNav}`}
             >
                 <div className="flex gap-1 mt-1">
                     {/* <Stethoscope className="mt-1" /> */}
-                    <h2 className={`font-semibold text-lg cursor-pointer ${AerialFont.className}  ${theme === 'dark' && "text-white"}`} onClick={() => router.push("/")}>PhysioMedix</h2>
+                    <h2 className={`font-semibold text-lg cursor-pointer ${AerialFont.className}  ${themeH2}`} onClick={() => router.push("/")}>PhysioMedix</h2>
                 </div>
                 <div className="flex gap-2 justify-end">
                     {/* Categories bar */}
@@ -66,7 +80,7 @@ const Navbar = () => {
                         >
                             <Button
                                 variant={"ghost"}
-                                className={cn(`cursor-pointer text-left font-semibold pr-2 lg:block ${AerialFont.className} ${theme === 'dark' && "text-white"}`, {
+                                className={cn(`cursor-pointer text-left font-semibold pr-2 lg:block ${AerialFont.className} ${themeH2}`, {
                                     "sm:flex": !user,
                                     "sm:hidden": user
                                 })}>Categories</Button>
@@ -76,7 +90,7 @@ const Navbar = () => {
                                 {categories?.map((category, index) => (
                                     <DropdownMenuItem
                                         key={index}>
-                                        <h2 className={`text-sm font-normal hover:cursor-pointer ${theme === 'dark' && "text-white"}`} onClick={() => handleClick(category.name, category.id)}>
+                                        <h2 className={`text-sm font-normal hover:cursor-pointer ${themeH2}`} onClick={() => handleClick(category.name, category.id)}>
                                             {category.name}
                                         </h2>
                                     </DropdownMenuItem>
@@ -87,7 +101,7 @@ const Navbar = () => {
 
                     {user && allowedEmails.includes(user.email!) && (
                         <Link
-                            className={`hover:cursor-pointer ${buttonVariants({ variant: "outline" })} ${AerialFont.className} ${theme === 'dark' && "text-white"}`}
+                            className={`hover:cursor-pointer ${buttonVariants({ variant: "outline" })} ${AerialFont.className} ${themeH2}`}
                             href={"/admin"}
                         >
                             Dashboard

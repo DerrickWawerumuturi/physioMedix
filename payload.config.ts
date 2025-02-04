@@ -18,6 +18,7 @@ import { s3Storage } from '@payloadcms/storage-s3'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST, // SMTP server host
   port: parseInt(process.env.SMTP_PORT || '587', 10), // SMTP port, usually 587 or 465

@@ -16,9 +16,11 @@ type Args = {
 }
 
 export const generateMetadata = ({ params, searchParams }: Args): Promise<Metadata> =>
+  //@ts-ignore
   generatePageMetadata({ config, params, searchParams })
 
 const NotFound = ({ params, searchParams }: Args) =>
+  // @ts-ignore
   NotFoundPage({ config, params, searchParams, importMap })
 
 export default NotFound

@@ -42,6 +42,10 @@ const config: Config = {
         'meteor-effect': 'meteor 5s linear infinite',
       },
       colors: {
+        oxford: {
+          900: 'rgb(0 42 62)',
+          950: 'rgb(0, 35 51)'
+        },
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
@@ -53,6 +57,7 @@ const config: Config = {
           200: '#b2ebf2', // Light blue hover
           800: '#00796b', // Darker text color
         },
+
         popover: {
           DEFAULT: 'hsl(var(--popover))',
           foreground: 'hsl(var(--popover-foreground))',

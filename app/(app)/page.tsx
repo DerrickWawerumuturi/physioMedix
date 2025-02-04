@@ -5,6 +5,9 @@ import { Highlight } from '@/components/ui/hero-highlight'
 import localFont from 'next/font/local'
 import { cn } from '@/utils/cn'
 import { useTheme } from 'next-themes'
+import { useEffect, useState } from 'react'
+import Newsletter from '@/components/Newsletter'
+
 
 
 const AerialFont = localFont({
@@ -15,14 +18,29 @@ const AerialFont = localFont({
 
 export default function Home() {
   const { theme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) {
+    return null
+  }
+
+  // themes
+  const themeMain = theme === 'dark' && 'bg-black text-white'
+  const themeH1 = theme === 'dark' ? "text-gray-500":'text-green-400'
 
   return (
-    <div className={`min-h-screen flex flex-col ${theme === 'dark' && 'bg-black text-white'}`} suppressHydrationWarning={true}>
-      <main className={cn('py-20 items-center text-center max-w-3xl mx-auto flex flex-col  gap-5 sm:overflow-x-hidden md:overflow-x-visible')} suppressHydrationWarning>
+    <div className={`min-h-screen flex flex-col space-y-4 ${themeMain}`} suppressHydrationWarning={true}>
+      <main
+        className={cn('py-20 items-center text-center max-w-3xl mx-auto flex flex-col  gap-5 sm:overflow-x-hidden md:overflow-x-visible')}
+        suppressHydrationWarning>
         <div className="flex flex-col items-center">
           <h1
-            className={`${cn("text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl mt-7 text-center max-w-3xl")} ${theme === 'dark' && 'text-blue-400'}`}>
-            Empower Your Movement, <Highlight className={`${theme === 'dark' && 'text-green-400'}`}>Transform Your Health.</Highlight>
+            className={`${cn("text-4xl font-bold tracking-tight  sm:text-6xl mt-7 text-center max-w-3xl")} ${themeH1}`}>
+            Empower Your Movement, <Highlight>Transform Your Health.</Highlight>
           </h1>
           <p className={`mt-6 text-lg text-muted-foreground text-center max-w-2xl ${AerialFont.className}`}>
             Discover expert tips, treatments, and exercises
@@ -35,10 +53,13 @@ export default function Home() {
           <GridBox />
         </div>
 
-        <div className="my-20  mx-5 lg:-ml-64 pb-9 lg:mt-7 rounded-md antialiased  dark:bg-black dark:bg-grid-white/[0.05] justify-start items-start">
+        <div
+          className="my-20  mx-5 lg:-ml-64 pb-9 lg:mt-7 rounded-md antialiased  dark:bg-black dark:bg-grid-white/[0.05] justify-start items-start">
           <div className=" w-full relative max-w-7xl">
-            <div className="absolute inset-0 h-full w-full bg-gradient-to-r from-blue-500 to-teal-500 transform scale-[0.80] bg-red-500 rounded-full blur-3xl" />
-            <div className="relative shadow-xl bg-gray-900 border border-gray-800  px-4 py-8 h-full overflow-hidden rounded-2xl flex flex-col justify-end items-start">
+            <div
+              className="absolute inset-0 h-full w-full bg-gradient-to-r from-blue-500 to-teal-500 transform scale-[0.80] bg-red-500 rounded-full blur-3xl" />
+            <div
+              className="relative shadow-xl bg-gray-900 border border-gray-800  px-4 py-8 h-full overflow-hidden rounded-2xl flex flex-col justify-end items-start">
               <div className="h-5 w-5 rounded-full border flex items-center justify-center mb-4 border-gray-500">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -60,8 +81,11 @@ export default function Home() {
                 What&apos;s PhysioMedix about?
               </h1>
 
-              <p className={`font-normal text-base text-slate-500 mb-4 relative z-50 text-left ${AerialFont.className}`}>
-                A comprehensive platform dedicated to promoting awareness, education, and resources about physiotherapy. The website serves as a hub for physiotherapists, patients, students, and anyone interested in physical rehabilitation and movement science
+              <p
+                className={`font-normal text-base text-slate-500 mb-4 relative z-50 text-left ${AerialFont.className}`}>
+                A comprehensive platform dedicated to promoting awareness, education, and resources about physiotherapy.
+                The website serves as a hub for physiotherapists, patients, students, and anyone interested in physical
+                rehabilitation and movement science
               </p>
 
               {/* Meaty part - Meteor effect */}
@@ -70,6 +94,8 @@ export default function Home() {
           </div>
         </div>
       </main>
+
+      <Newsletter />
     </div>
   );
 }

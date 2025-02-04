@@ -53,11 +53,13 @@ export function SerializeComponent({ children }: { children: import('./types').S
         if (node.type === 'text') {
           let text = `${escapeHTML(node.text)}`;
 
+
           if (node.format & IS_BOLD) {
-            text = `<strong>${text}</strong>`;
+            text = `<strong class="font-bold">${text}</strong>`;
+
           }
           if (node.format & IS_ITALIC) {
-            text = `<em>${text}</em>`;
+            text = `<em class="italic">${text}</em>`;
           }
           if (node.format & IS_STRIKETHROUGH) {
             text = `<span class="line-through">${text}</span>`;

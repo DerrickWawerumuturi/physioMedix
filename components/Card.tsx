@@ -5,6 +5,7 @@ import { formatDate } from '@/utils/utils'
 import { useRouter } from 'next/navigation'
 import localFont from 'next/font/local'
 import { useTheme } from 'next-themes'
+import { useEffect, useState } from 'react'
 
 
 const AerialFont = localFont({
@@ -32,6 +33,16 @@ const Card = ({
 }: CardProps) => {
     const router = useRouter()
     const { theme } = useTheme()
+    const [mounted, setMounted] = useState(false)
+
+    useEffect(() => {
+        setMounted(true)
+    }, [])
+
+    if (!mounted) {
+        return null
+    }
+    const themeBorder = theme === "dark"  && "bg-black border border-gray-600"
 
     const onClick = () => {
         const formattedTitle = title.replace(/\s+/g, '-');
@@ -41,7 +52,7 @@ const Card = ({
 
     return (
         <div
-            className={`rounded-xl shadow-lg overflow-hidden border border-gray-200  transform transition duration-300 hover:scale-105 hover:shadow-lg hover:cursor-pointer sm:max-w-sm lg:max-w-7xl ${theme === "dark" && "bg-black"}`}
+            className={`rounded-xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-lg hover:cursor-pointer sm:max-w-sm lg:max-w-7xl ${themeBorder}`}
             onClick={onClick}
         >
             <div className='relative h-48 w-full'>
