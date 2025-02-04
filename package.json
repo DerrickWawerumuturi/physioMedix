@@ -1,7 +1,7 @@
 {
   "name": "physiomedix",
   "version": "1.0.0",
-  "description": "Physiomedix is dedicated to exploring the science of physiology, offering readers in-depth insights into how the human body functions.",
+  "description": "physiomedix is dedicated to exploring the science of physiology, offering readers in-depth insights into how the human body functions.",
   "license": "MIT",
   "type": "module",
   "scripts": {
