@@ -12,6 +12,7 @@ type Args = {
 }
 
 const Layout = ({ children }: Args) => (
+  // @ts-ignore
   <RootLayout importMap={importMap} config={configPromise}>
     {children}
   </RootLayout>
