@@ -1,6 +1,5 @@
 'use client'
 import Card from '@/components/Card'
-import Navbar from '@/components/Navbar'
 import { cn } from '@/utils/cn'
 import { createClient } from '@/utils/supabase/client'
 import { convertToOriginalTitle, formatDate } from '@/utils/utils'
@@ -9,8 +8,8 @@ import localFont from 'next/font/local'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import "../../globals.css"
+import React, { useEffect, useState } from 'react'
+import '../../globals.css'
 import { SerializeComponent } from '@/utils/serialise/NewRichTextParser'
 import { useTheme } from 'next-themes'
 
@@ -26,6 +25,14 @@ const LatoRegular = localFont({
     style: "normal"
 })
 
+const AerialFont = localFont({
+    src: "../../fonts/AeonikProTRIAL-Bold.woff",
+    weight: "400",
+    style: "normal"
+})
+
+
+
 const SUPABASE_URL = 'https://eejowrrhyyummrlskjln.supabase.co'
 
 
@@ -40,6 +47,16 @@ const Page = () => {
     const [updatedAt, setUpdatedAt] = useState<string>()
     const { theme } = useTheme()
     const [mounted, setMounted] = useState(false)
+    const [headings, setHeadings] = useState<{id: string, text: string, level: number}[]>([])
+
+    const handleLinkClick = (event: React.MouseEvent, id: string) => {
+        event.preventDefault()
+
+        const element = document.getElementById(id)
+        if (element) {
+            element.scrollIntoView({ behavior: "smooth" })
+        }
+    }
 
     useEffect(() => {
         const fetchContent = async () => {
@@ -157,7 +174,7 @@ const Page = () => {
     }
 
     // themes
-    const themeClass = theme === 'dark' ? 'bg-black': 'bg-blue-50'
+    const themeClass = theme === 'dark' ? 'bg-black': 'bg-white'
     const themeBgClass = theme === "light" ? "bg-gray-950" : "bg-blue-800";
     const themeSeriliaze = theme === "dark" ? "bg-gray-600 text-white": "bg-white"
     const  themeLink = theme === "dark" && "text-white"
@@ -165,8 +182,8 @@ const Page = () => {
 
     return (
         <div className={`flex flex-col min-h-screen ${themeClass}`}>
-            <div className={cn('flex flex-col sm:mx-4 lg:mx-44  mb-20 space-y-14')}>
-                <div className={`flex flex-row  mt-14 rounded-xl h-[550px]  text-white ${themeBgClass}`}>
+            <div className={cn('flex flex-col sm:mx-4 mb-20 space-y-14')}>
+                <div className={`flex flex-row  mt-14 rounded-xl h-[550px] lg:mx-44  text-white ${themeBgClass}`}>
                     <div className={`flex flex-col space-y-11 lg:w-1/2 p-7 ml-7 ${LatoBold.className} flex-grow`}>
                         <Link href="/" className='flex space-x-2 mt-6 hover:underline max-w-sm'>
                             <ArrowLeft className='h-6 w-6 mt-0.5' />
@@ -174,10 +191,10 @@ const Page = () => {
                         </Link>
 
                         <div className={"flex flex-col gap-3 "}>
-                            <h2 className={`font-bold text-6xl sm:max-w-md  ${LatoBold.className}`}>{originalTitle}</h2>
+                            <h2 className={`font-bold text-6xl  ${LatoBold.className}`}>{originalTitle}</h2>
                             <div className='flex space-x-3 items-center'>
                                 <Clock className='h-6 w-6' />
-                                <p className='lg:text-lg py-8'>5 min read.</p>
+                                <p className='lg:text-lg py-5'>5 min read.</p>
                                 {updatedAt && updatedAt.length > 0 && (
                                     <p className='pl-5 lg:text-lg'>{formatDate(updatedAt)}</p>
                                 )}
@@ -201,13 +218,28 @@ const Page = () => {
                     </div>
                 </div>
 
-                <div className={`flex flex-col gap-5 rounded-xl max-w-5xl ${LatoRegular.className} p-14 ${themeSeriliaze}`}>
-                    <h2 className='font-bold text-5xl mb-6'>{originalTitle}</h2>
-                    <SerializeComponent>{content}</SerializeComponent>
+                <div className={`flex justify-between mx-4 ${AerialFont.className}`}>
+                    <div className={"sm:hidden lg:flex pl-4  lg:flex-col space-y-4 "}>
+                        <h2 className={"font-bold text-xl mt-4"}>TABLE OF CONTENT</h2>
+                        <ul className={"mt-4"}>
+                            {headings.map((heading) => (
+                              <li key={heading.id} className={`font-thin border-l-2 px-4 border-blue-200`}>
+                                  <a href={`#${heading.id}`} className={"hover:text-blue-600 text-gray-500"} onClick={(event) => handleLinkClick(event, heading.id)}>{heading.text}</a>
+                              </li>
+                            ))}
+                        </ul>
+                    </div>
+                    <div
+                      className={`flex flex-col gap-5 rounded-xl max-w-5xl  shadow-lg ${LatoRegular.className} p-14 ${themeSeriliaze}`}>
+                        <h2 className="font-bold text-5xl mb-6">{originalTitle}</h2>
+                        <SerializeComponent setHeadings={setHeadings}>{content}</SerializeComponent>
+                    </div>
+
                 </div>
+
             </div>
             <Link href="/" className={`${LatoBold.className} flex space-x-2 sm:ml-20 lg:ml-36 mb-11`}>
-                <ArrowBigLeft className={`${themeLink}`}/>
+                <ArrowBigLeft className={`${themeLink}`} />
                 <p className={`text-2xl hover:underline ${themeLink}`}>Back</p>
             </Link>
 

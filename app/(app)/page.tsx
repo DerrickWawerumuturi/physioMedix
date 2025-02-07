@@ -33,7 +33,7 @@ export default function Home() {
   const themeH1 = theme === 'dark' ? "text-gray-500":'text-green-400'
 
   return (
-    <div className={`min-h-screen flex flex-col space-y-4 ${themeMain}`} suppressHydrationWarning={true}>
+    <div className={`overflow-hidden min-h-screen flex flex-col space-y-4 ${themeMain}`} suppressHydrationWarning={true}>
       <main
         className={cn('py-20 items-center text-center max-w-3xl mx-auto flex flex-col  gap-5 sm:overflow-x-hidden md:overflow-x-visible')}
         suppressHydrationWarning>

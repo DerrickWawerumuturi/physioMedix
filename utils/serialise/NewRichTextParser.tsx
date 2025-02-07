@@ -11,6 +11,14 @@ import {
 } from './RichTextNodeFormat';
 import { useEffect, useState } from 'react';
 import { getImages } from './GetImages';
+import localFont from 'next/font/local'
+
+const LatoRegular = localFont({
+  src: "../../app/fonts/Lato-Regular.ttf",
+  weight: "200",
+  style: "normal"
+})
+
 
 const SUPABASE_URL = 'https://eejowrrhyyummrlskjln.supabase.co';
 
@@ -18,19 +26,31 @@ function getLinkForPage(doc: any) {
   return 'implement this'
 }
 
-export function SerializeComponent({ children }: { children: import('./types').SerializedLexicalNode[] }) {
+export function SerializeComponent({ children, setHeadings }: {
+  children: import('./types').SerializedLexicalNode[]
+  setHeadings?: (headings: {id: string, text:string, level: number}[]) => void;
+}) {
   const [imageData, setImageData] = useState<{ [key: number]: string }>({});
 
   useEffect(() => {
+    const extractedHeadings: {id: string, text:string, level: number}[] = []
     const uploadIds: number[] = [];
+
     children?.forEach((node) => {
       if (node.type === 'upload') {
         const id = Number(node.value);
         if (!uploadIds.includes(id)) {
           uploadIds.push(id);
         }
+      } else if (node.type === "heading") {
+        const text = node.children?.map((child) => child.text).join(' ') || '';
+        const id = text.toLowerCase().replace(/\s+/g, '-');
+        extractedHeadings.push({id, text, level: parseInt(node.tag.replace('h', ''))})
       }
     });
+
+
+    if (setHeadings) setHeadings(extractedHeadings)
 
     if (uploadIds.length > 0) {
       // Fetch images asynchronously and set state
@@ -45,7 +65,7 @@ export function SerializeComponent({ children }: { children: import('./types').S
         setImageData(newImageData);
       });
     }
-  }, [children]); // Re-run effect when children changes
+  }, [children, setHeadings]); // Re-run effect when children changes
 
   const serialize = (nodes: import('./types').SerializedLexicalNode[]): string[] => {
     return nodes
@@ -91,17 +111,15 @@ export function SerializeComponent({ children }: { children: import('./types').S
             return `<br>`;
           case 'paragraph':
             return `<p>${serializedChildren || '<br>'}</p>`;
-
           case 'link':
             const fields = node.fields || {}; // Safely access the `fields` property
             const linkUrl = fields.linkType === 'custom' ? fields.url || '#' : getLinkForPage(fields.doc);
 
-            return `<a style="color: blue" class="underline" href="${linkUrl}" ${
+            return `<a style="color: #8B5CF6" class="font-bold" href="${linkUrl}" ${
               fields.newTab ? ' target="_blank"' : ''
             } rel="${fields.sponsored ? 'sponsored ' : ''}${fields.nofollow ? 'nofollow ' : ''}${fields.rel || ''}">${
               serializedChildren || '' 
             }</a>`;
-
           case 'list':
             if (node.listType === 'bullet') {
               return `<ul class="list-disc mb-4 pl-8">${serializedChildren}</ul>`;
@@ -123,7 +141,9 @@ export function SerializeComponent({ children }: { children: import('./types').S
             }
             return ''; // Handle case where no image data is available
           case 'heading':
-            return `<${node.tag}>${serializedChildren}</${node.tag}>`;
+            const text = serializedChildren
+            const id = text.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9\-]/g, '');
+            return `< ${node.tag} class="scroll-mt-16">${serializedChildren}</${node.tag}>`;
 
           default:
             return serializedChildren || `<p><br></p>`; // Ensure empty paragraphs render
@@ -135,7 +155,7 @@ export function SerializeComponent({ children }: { children: import('./types').S
 
   return (
     <div
-      className="text-2xl whitespace-pre-wrap mb-5"
+      className={`text-lg whitespace-pre-wrap mb-5 ${LatoRegular.className}`}
       dangerouslySetInnerHTML={{
         __html: serialize(children).join(''),
       }}
