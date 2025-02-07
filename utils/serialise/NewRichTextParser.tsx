@@ -143,7 +143,7 @@ export function SerializeComponent({ children, setHeadings }: {
           case 'heading':
             const text = serializedChildren
             const id = text.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9\-]/g, '');
-            return `< ${node.tag} class="scroll-mt-16">${serializedChildren}</${node.tag}>`;
+            return `<${node.tag} class="scroll-mt-16 ">${serializedChildren}</${node.tag}>`;
 
           default:
             return serializedChildren || `<p><br></p>`; // Ensure empty paragraphs render

@@ -12,12 +12,15 @@ import { Button, buttonVariants } from './ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
 import { ModeToggle } from '@/components/ui/modeToogle'
 import { useTheme } from 'next-themes'
+import MobileNav from '@/components/MobileNav'
+import CategoryBox from '@/components/CategoryBox'
 
 interface catogeryProps {
     id: number;
     name: string;
     description: string
 }
+
 const AerialFont = localFont({
     src: "../app/fonts/AeonikProTRIAL-Bold.woff",
     weight: "400",
@@ -65,7 +68,7 @@ const Navbar = () => {
 
     return (
       <div className={`flex justify-center ${themeMain}`}>
-            <nav className={`z-50 flex mx-auto rounded-lg shadow-md p-2 px-4 justify-between w-1/2 ${themeNav}`}
+            <nav className={`sm:hidden z-50 lg:flex mx-auto rounded-lg shadow-md p-2 px-4 justify-between w-1/2 ${themeNav}`}
             >
                 <div className="flex gap-1 mt-1">
                     {/* <Stethoscope className="mt-1" /> */}
@@ -73,31 +76,7 @@ const Navbar = () => {
                 </div>
                 <div className="flex gap-2 justify-end">
                     {/* Categories bar */}
-                    <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
-                        <DropdownMenuTrigger
-                            className="outline-none pr-2 cursor-pointer"
-                            asChild
-                        >
-                            <Button
-                                variant={"ghost"}
-                                className={cn(`cursor-pointer text-left font-semibold pr-2 lg:block ${AerialFont.className} ${themeH2}`, {
-                                    "sm:flex": !user,
-                                    "sm:hidden": user
-                                })}>Categories</Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent className="min-w-0">
-                            <div className="grid grid-cols-2 gap-2 p-2">
-                                {categories?.map((category, index) => (
-                                    <DropdownMenuItem
-                                        key={index}>
-                                        <h2 className={`text-sm font-normal hover:cursor-pointer ${themeH2}`} onClick={() => handleClick(category.name, category.id)}>
-                                            {category.name}
-                                        </h2>
-                                    </DropdownMenuItem>
-                                ))}
-                            </div>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                    <CategoryBox />
 
                     {user && allowedEmails.includes(user.email!) && (
                         <Link
@@ -115,6 +94,8 @@ const Navbar = () => {
                      <ModeToggle />
                 </div>
             </nav >
+            {/* mobile navbar */}
+            <MobileNav />
       </div>
     )
 }

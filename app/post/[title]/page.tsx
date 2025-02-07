@@ -182,7 +182,7 @@ const Page = () => {
 
     return (
         <div className={`flex flex-col min-h-screen ${themeClass}`}>
-            <div className={cn('flex flex-col sm:mx-4 mb-20 space-y-14')}>
+            <div className={cn('flex flex-col sm:mx-2 lg:mx-4 mb-14 space-y-14')}>
                 <div className={`flex flex-row  mt-14 rounded-xl h-[550px] lg:mx-44  text-white ${themeBgClass}`}>
                     <div className={`flex flex-col space-y-11 lg:w-1/2 p-7 ml-7 ${LatoBold.className} flex-grow`}>
                         <Link href="/" className='flex space-x-2 mt-6 hover:underline max-w-sm'>
@@ -218,8 +218,9 @@ const Page = () => {
                     </div>
                 </div>
 
-                <div className={`flex justify-between mx-4 ${AerialFont.className}`}>
-                    <div className={"sm:hidden lg:flex pl-4  lg:flex-col space-y-4 "}>
+                <div className={`flex justify-between mx-2 ${AerialFont.className}`}>
+                    {/*table of content */}
+                    <div className={"sm:hidden lg:flex pl-4  mr-20 lg:flex-col space-y-4 "}>
                         <h2 className={"font-bold text-xl mt-4"}>TABLE OF CONTENT</h2>
                         <ul className={"mt-4"}>
                             {headings.map((heading) => (
@@ -229,21 +230,23 @@ const Page = () => {
                             ))}
                         </ul>
                     </div>
+
+                    {/* blog content */}
                     <div
-                      className={`flex flex-col gap-5 rounded-xl max-w-5xl  shadow-lg ${LatoRegular.className} p-14 ${themeSeriliaze}`}>
-                        <h2 className="font-bold text-5xl mb-6">{originalTitle}</h2>
+                      className={`flex flex-col gap-5 rounded-xl lg:ml-14 shadow-lg ${LatoRegular.className} sm:px-5 lg:p-14 ${themeSeriliaze}`}>
+                        <h2 className="font-bold text-5xl my-6">{originalTitle}</h2>
                         <SerializeComponent setHeadings={setHeadings}>{content}</SerializeComponent>
                     </div>
 
                 </div>
 
             </div>
-            <Link href="/" className={`${LatoBold.className} flex space-x-2 sm:ml-20 lg:ml-36 mb-11`}>
+            <Link href="/" className={`${LatoBold.className} flex space-x-2 sm:ml-7 lg:ml-36 mb-6`}>
                 <ArrowBigLeft className={`${themeLink}`} />
-                <p className={`text-2xl hover:underline ${themeLink}`}>Back</p>
+                <p className={`sm:text-lg lg:text-2xl hover:underline ${themeLink}`}>Back</p>
             </Link>
 
-            <h2 className={`ml-20 lg:ml-36 font-bold text-6xl ${LatoBold.className} ${themeH2}`}>Maybe you&apos;d be interested in this too</h2>
+            <h2 className={`sm:ml-14 lg:ml-36 font-bold sm:text-lg lg:text-6xl sm:underline lg:no-underline ${LatoBold.className} ${themeH2}`}>Maybe you&apos;d be interested in this too</h2>
             <div className={`fade-in fade-in-visible my-10 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 sm:max-w-3xl lg:max-w-7xl lg:max-width md:pl-5 lg:pl-0 sm:mx-14 lg:mx-36 ${LatoRegular.className}`}>
                 {posts && posts.map((post, index) => (
                     <Card
