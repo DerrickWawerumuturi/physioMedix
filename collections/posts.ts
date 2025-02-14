@@ -24,6 +24,11 @@ export const Posts: CollectionConfig = {
       type: 'richText',
     },
     {
+      name: "Duration",
+      type: "number",
+      required: true
+    },
+    {
       name: 'type',
       type: 'select',
       defaultValue: 'blog',

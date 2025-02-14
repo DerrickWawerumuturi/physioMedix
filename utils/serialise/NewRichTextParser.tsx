@@ -141,9 +141,16 @@ export function SerializeComponent({ children, setHeadings }: {
             }
             return ''; // Handle case where no image data is available
           case 'heading':
-            const text = serializedChildren
-            const id = text.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9\-]/g, '');
-            return `<${node.tag} class="scroll-mt-16 ">${serializedChildren}</${node.tag}>`;
+            const textContent = serializedChildren.replace(/<\/?[^>]+(>|$)/g, '').trim();
+
+            // Generate the ID based on clean text
+            const id = textContent
+              .toLowerCase()
+              .replace(/\s+/g, '-')    // Replace spaces with hyphens
+              .replace(/[^a-z0-9\-]/g, ''); // Remove non-alphanumeric characters (except hyphens)
+
+
+            return `<${node.tag} id="${id}" class="scroll-mt-16 underline">${serializedChildren}</${node.tag}>`;
 
           default:
             return serializedChildren || `<p><br></p>`; // Ensure empty paragraphs render

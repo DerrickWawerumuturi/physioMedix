@@ -48,15 +48,19 @@ const Page = () => {
     const { theme } = useTheme()
     const [mounted, setMounted] = useState(false)
     const [headings, setHeadings] = useState<{id: string, text: string, level: number}[]>([])
+    const [activeHeading, setActiveHeading] = useState<null | string>(null)
 
     const handleLinkClick = (event: React.MouseEvent, id: string) => {
         event.preventDefault()
+        setActiveHeading(id)
 
         const element = document.getElementById(id)
         if (element) {
             element.scrollIntoView({ behavior: "smooth" })
         }
     }
+
+
 
     useEffect(() => {
         const fetchContent = async () => {
@@ -169,6 +173,28 @@ const Page = () => {
         setMounted(true)
     }, [])
 
+    useEffect(() => {
+        const handleScroll = () => {
+            let currentHeadings = null
+
+            headings.forEach((heading) => {
+                const element = document.getElementById(heading.id);
+                if (element) {
+                    const rect = element.getBoundingClientRect()
+                    if (rect.top >= 0 && rect.top <= 300) {
+                        currentHeadings = heading.id;
+                    }
+                }
+            });
+            if (currentHeadings) {
+                setActiveHeading(currentHeadings)
+            }
+        }
+
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, [headings])
+
     if (!mounted) {
         return null
     }
@@ -176,23 +202,24 @@ const Page = () => {
     // themes
     const themeClass = theme === 'dark' ? 'bg-black': 'bg-white'
     const themeBgClass = theme === "light" ? "bg-gray-950" : "bg-blue-800";
-    const themeSeriliaze = theme === "dark" ? "bg-gray-600 text-white": "bg-white"
+    const themeSerialize = theme === "dark" ? "text-white": "bg-white"
     const  themeLink = theme === "dark" && "text-white"
     const themeH2 = theme === "dark" && "text-green-400"
+
 
     return (
         <div className={`flex flex-col min-h-screen ${themeClass}`}>
             <div className={cn('flex flex-col sm:mx-2 lg:mx-4 mb-14 space-y-14')}>
-                <div className={`flex flex-row  mt-14 rounded-xl h-[550px] lg:mx-44  text-white ${themeBgClass}`}>
-                    <div className={`flex flex-col space-y-11 lg:w-1/2 p-7 ml-7 ${LatoBold.className} flex-grow`}>
-                        <Link href="/" className='flex space-x-2 mt-6 hover:underline max-w-sm'>
+                <div className={`flex flex-row  mt-14 rounded-xl h-[350px] lg:mx-44  text-white ${themeBgClass}`}>
+                    <div className={`flex flex-col space-y-7 lg:w-1/2 p-7 ml-7 ${LatoBold.className} flex-grow`}>
+                        <Link href="/" className='flex space-x-2 mt-4 hover:underline max-w-sm'>
                             <ArrowLeft className='h-6 w-6 mt-0.5' />
                             <h2 className={`text-xl ${LatoBold.className}`}>Back to lobby</h2>
                         </Link>
 
                         <div className={"flex flex-col gap-3 "}>
-                            <h2 className={`font-bold text-6xl  ${LatoBold.className}`}>{originalTitle}</h2>
-                            <div className='flex space-x-3 items-center'>
+                            <h2 className={`font-bold ${originalTitle.length < 10 ? "text-6xl" : "sm:text-3xl lg:text-4xl"}  ${LatoBold.className}`}>{originalTitle}</h2>
+                            <div className={`flex space-x-3 items-center ${originalTitle.length < 20  ? 'sm:mt-10' : ""}`}>
                                 <Clock className='h-6 w-6' />
                                 <p className='lg:text-lg py-5'>5 min read.</p>
                                 {updatedAt && updatedAt.length > 0 && (
@@ -204,7 +231,9 @@ const Page = () => {
 
                     </div>
 
-                    <div className="hidden lg:flex lg:w-1/2 h-full relative flex-shrink-0">
+                    <div className={cn(`hidden`, {
+                        "lg:flex lg:w-1/2 relative flex-shrink-0" : originalTitle.length < 10
+                    })}>
                         {imageUrl && imageUrl?.length > 0 && (
                             <Image
                                 src={imageUrl}
@@ -220,11 +249,14 @@ const Page = () => {
 
                 <div className={`flex justify-between mx-2 ${AerialFont.className}`}>
                     {/*table of content */}
-                    <div className={"sm:hidden lg:flex pl-4  mr-20 lg:flex-col space-y-4 "}>
+                    <div className={"sm:hidden lg:flex pl-4 pr-4 mr-20 h-[80vh] sticky top-20 lg:flex-col space-y-4 "}>
                         <h2 className={"font-bold text-xl mt-4"}>TABLE OF CONTENT</h2>
                         <ul className={"mt-4"}>
-                            {headings.map((heading) => (
-                              <li key={heading.id} className={`font-thin border-l-2 px-4 border-blue-200`}>
+                            {headings.slice(0, 6).map((heading) => (
+                              <li
+                                key={heading.id}
+                                className={`font-thin border-l-2 px-4 py-2 ${activeHeading === heading.id ? "border-blue-200" : "border-blue-600"}`}
+                              >
                                   <a href={`#${heading.id}`} className={"hover:text-blue-600 text-gray-500"} onClick={(event) => handleLinkClick(event, heading.id)}>{heading.text}</a>
                               </li>
                             ))}
@@ -233,9 +265,8 @@ const Page = () => {
 
                     {/* blog content */}
                     <div
-                      className={`flex flex-col gap-5 rounded-xl lg:ml-14 shadow-lg ${LatoRegular.className} sm:px-5 lg:p-14 ${themeSeriliaze}`}>
-                        <h2 className="font-bold text-5xl my-6">{originalTitle}</h2>
-                        <SerializeComponent setHeadings={setHeadings}>{content}</SerializeComponent>
+                      className={`flex flex-col gap-5 rounded-xl lg:ml-24 shadow-lg ${LatoRegular.className} sm:px-5 lg:p-7 ${themeSerialize} text-sm`}>
+                        <SerializeComponent setHeadings={setHeadings} >{content}</SerializeComponent>
                     </div>
 
                 </div>

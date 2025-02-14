@@ -107,6 +107,7 @@ export interface Post {
     };
     [k: string]: unknown;
   } | null;
+  Duration: number;
   type?: ('blog' | 'article') | null;
   status?: ('published' | 'draft') | null;
   categories: (number | Category)[];
@@ -316,6 +317,7 @@ export interface MediaSelect<T extends boolean = true> {
 export interface PostsSelect<T extends boolean = true> {
   title?: T;
   content?: T;
+  Duration?: T;
   type?: T;
   status?: T;
   categories?: T;
