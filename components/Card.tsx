@@ -52,7 +52,7 @@ const Card = ({
 
     return (
         <div
-            className={`rounded-xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-lg hover:cursor-pointer sm:max-w-sm lg:max-w-7xl ${themeBorder}`}
+            className={`rounded-xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-lg hover:cursor-pointer sm:max-w-sm lg:max-w-10xl ${themeBorder}`}
             onClick={onClick}
         >
             <div className='relative h-48 w-full'>

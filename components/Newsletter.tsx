@@ -96,7 +96,7 @@ const Newsletter = () => {
           <div className={"rich-text relative max-w-[479px] space-y-4"}>
             <h2 className={"font-bold  text-light-blue-800 text-sm "}>NEWSLETTER</h2>
             <p className={"font-semibold text-white text-2xl mb-4"}>Stay in the loop</p>
-            <p className={"text-white text-xl "}>Subscribe to our newsletter for the latest articles and blogs about physiotherapy</p>
+            <p className={"text-white text-xl sm:w-[200px] lg:w-full "}>Subscribe to our newsletter for the latest articles and blogs about physiotherapy</p>
           </div>
           <div className={"flex space-x-3 rich-text relative max-w-[479px]"}>
             <Input placeholder={'Email'} value={email} onChange={(e) => setEmail(e.target.value)} className={"bg-white"} />
