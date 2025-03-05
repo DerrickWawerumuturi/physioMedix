@@ -14,14 +14,15 @@ import {
   Section,
   Text,
 } from '@react-email/components';
+import { formatDate } from '@/utils/utils'
 
 const baseUrl = process.env.VERCEL_URL
     ? `https://${process.env.VERCEL_URL}`
     : `https://www.physiomedix.com`
 
 interface NewsletterEmailProps {
-  title: string,
-  content: string,
+  title?: string,
+  content?: React.ReactNode,
   date?: string,
   author?: string,
 }
@@ -31,7 +32,7 @@ const NewsletterEmail = (
     title,
     content,
     date,
-    author
+
   }: NewsletterEmailProps) => {
 
   return (
@@ -58,11 +59,13 @@ const NewsletterEmail = (
 
         {/*  content */}
           <Section style={styleContent}>
-            <Text style={paragraph}>{content}</Text>
+            <Text>
+              <div dangerouslySetInnerHTML={{ __html: content || "" }} />
+            </Text>
           </Section>
 
           <Section style={styleContent}>
-            <Text style={paragraph}>{date}</Text>
+            <Text style={paragraph}>{formatDate(date!)}</Text>
           </Section>
 
         {/*  read more */}
@@ -79,16 +82,16 @@ const NewsletterEmail = (
               You&apos;re receiving this email because you subscribed to Monthly newsletters from PhysioMedix.
             </Text>
 
-            <Link href="/" style={footerLink}>
+            <Link href="/public" style={footerLink}>
               Unsubscribe from emails like this{' '}
             </Link>
-            <Link href="/" style={footerLink}>
+            <Link href="/public" style={footerLink}>
               Edit email settings{' '}
             </Link>
-            <Link href="/" style={footerLink}>
+            <Link href="/public" style={footerLink}>
               Contact us
             </Link>
-            <Link href="/" style={footerLink}>
+            <Link href="/public" style={footerLink}>
               Privacy
             </Link>
 

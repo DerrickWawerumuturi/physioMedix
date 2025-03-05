@@ -120,6 +120,18 @@ const Newsletter = () => {
 
       setIsLoading(true)
 
+      // save email to database
+      const supabase = createClient()
+      const { error } = await supabase.from("subscribers").insert({
+        email: email
+      })
+
+    if (error?.code === "23505") {
+      toast("You have already subscribed!")
+      setIsLoading(false)
+      return;
+    }
+
       if (posts.length === 0) {
         toast('No posts available to send')
         return
@@ -131,11 +143,11 @@ const Newsletter = () => {
       const emailContent = {
         email,
         title: randomPost.title,
-        content: randomPost.content.join('\n'),
+        content: JSON.stringify(randomPost.content),
         date: randomPost.updated_at
       }
 
-      const response = await fetch('/api/newsletter', {
+      const response = await fetch('/api/thankyou', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
