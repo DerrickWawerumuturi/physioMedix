@@ -1,18 +1,162 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Figtree } from "next/font/google"
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { ImSpinner2 } from 'react-icons/im'
+import { toast } from 'sonner'
+import { createClient } from '@/utils/supabase/client'
 
 const figtree = Figtree({ subsets: ['latin'] })
+const SUPABASE_URL = 'https://eejowrrhyyummrlskjln.supabase.co'
+
 
 const Newsletter = () => {
   const [email, setEmail] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const handleSubmit = () => {
+  const [posts, setPosts] = useState<PostProps[]>([]);
+  const [content, setContent] = useState<any>([])
+  const [postCategories, setPostCategories] = useState<{ [key: number]: string[] }>({});
+  const [updatedAt, setUpdatedAt] = useState<string>()
+  const [offset, setOffset] = useState(0)
 
+  const LIMIT = 6 // number of posts nitafetch each time
+
+  const loadPosts = async (offset: number) => {
+    try {
+      setIsLoading(true)
+
+      const supabase = createClient()
+      const {data, error} =  await supabase
+        .from("posts")
+        .select("*")
+        .range(offset, offset + LIMIT - 1)
+
+      if (error) {
+        console.log("Error fetching more posts", error)
+        return
+      }
+
+
+      if (data) {
+
+        setPosts(prevPosts => {
+          const newPosts = data  as PostProps[]
+
+          // prevent repeatition of the already fetched posts
+          const existingPostsIds = new Set(prevPosts.map(post => post.id))
+          const filteredPosts = newPosts.filter(post => !existingPostsIds.has(post.id))
+
+          return [...prevPosts, ...filteredPosts]
+        })
+
+        const coverIds = data.map(post => post.cover_id);
+        const { data: coverData } = await supabase
+          .from('media')
+          .select('id, filename')
+          .in('id', coverIds);
+
+        // Create a mapping of cover ID to filename
+        const coverMap = (coverData || []).reduce((map, item) => {
+          const { data } = supabase
+            .storage
+            .from('media')
+            .getPublicUrl(item.filename); // Generate the public URL
+          map[item.id] = data.publicUrl; // Store the URL in the map
+          return map;
+        }, {} as { [key: number]: string });
+
+
+        // Fetch categories related to the posts
+        const { data: categoryRelations, error: categoryError } = await supabase
+          .from('posts_rels')
+          .select('category_id, parent_id')
+          .in('parent_id', data.map(post => post.id));
+
+        if (categoryError) {
+          console.error('Error fetching category relations:', categoryError);
+        } else {
+          const categoryIds = categoryRelations.map(relation => relation.category_id);
+          const { data: categories, error: categoryFetchError } = await supabase
+            .from('category')
+            .select('id, name')
+            .in('id', categoryIds);
+
+          if (categoryFetchError) {
+            console.error('Error fetching categories:', categoryFetchError);
+          } else {
+            const categoriesMap: { [key: number]: string[] } = {};
+            categoryRelations.forEach(relation => {
+              const category = categories.find(cat => cat.id === relation.category_id)?.name;
+              if (category) {
+                if (!categoriesMap[relation.parent_id]) {
+                  categoriesMap[relation.parent_id] = [];
+                }
+                categoriesMap[relation.parent_id].push(category);
+              }
+            });
+            setPostCategories(categoriesMap); // Store the mapping in state
+          }
+        }
+
+      }
+    } catch (error) {
+      console.log("Error loading posts", error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    loadPosts(offset)
+  }, [offset]);
+
+  const handleSubmit = async () => {
+    try {
+      if (!email) {
+        toast("Must enter a valid email address")
+      }
+
+      setIsLoading(true)
+
+      if (posts.length === 0) {
+        toast('No posts available to send')
+        return
+      }
+
+      const randomIndex = Math.floor(Math.random() * posts.length);
+      const randomPost = posts[randomIndex];
+
+      const emailContent = {
+        email,
+        title: randomPost.title,
+        content: randomPost.content.join('\n'),
+        date: randomPost.updated_at
+      }
+
+      const response = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+
+        body: JSON.stringify(emailContent)
+      })
+
+      if (response.ok) {
+        toast("Thank you for subscribing to our newsletter!")
+        setEmail('')
+      } else {
+        const error = await response.json()
+        toast(`Error: ${error.message || 'Something went wrong!'}`)
+      }
+
+    } catch (e) {
+      console.log("Submission error", e)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
 
@@ -99,7 +243,7 @@ const Newsletter = () => {
             <p className={"text-white text-xl sm:w-[200px] lg:w-full "}>Subscribe to our newsletter for the latest articles and blogs about physiotherapy</p>
           </div>
           <div className={"flex space-x-3 rich-text relative max-w-[479px]"}>
-            <Input placeholder={'Email'} value={email} onChange={(e) => setEmail(e.target.value)} className={"bg-white"} />
+            <Input placeholder={'Email'} value={email} onChange={(e) => setEmail(e.target.value)} className={"bg-white text-black"} />
             <Button
               onClick={handleSubmit}
               variant={"green"}
