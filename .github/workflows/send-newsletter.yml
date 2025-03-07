@@ -1,0 +1,20 @@
+name: Send Monthly Newsletter
+
+on:
+  schedule:
+    - cron: '0 0 1 * *' # Runs at midnight on the 1st of every month
+
+jobs:
+  send-newsletter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send newsletter
+        run: |
+          curl -X POST https://physiomedix.com/api/newsletter \
+          -H "Content-Type: application/json" \
+          -d '{
+            "title": "PhysioMedix Monthly Newsletter",
+            "content": "{\"root\":{\"children\":[{\"type\":\"p\",\"children\":[{\"text\":\"This is your monthly update! 🎉\"}]}]}}",
+            "author": "PhysioMedix Team",
+            "date": "$(date +'%Y-%m-%d')"
+          }'

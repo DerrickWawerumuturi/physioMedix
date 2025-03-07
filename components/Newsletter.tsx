@@ -16,7 +16,9 @@ const Newsletter = () => {
   const [email, setEmail] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [posts, setPosts] = useState<PostProps[]>([]);
+  const [content, setContent] = useState<any>([])
   const [postCategories, setPostCategories] = useState<{ [key: number]: string[] }>({});
+  const [updatedAt, setUpdatedAt] = useState<string>()
   const [offset, setOffset] = useState(0)
 
   const LIMIT = 6 // number of posts nitafetch each time
