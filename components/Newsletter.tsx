@@ -16,9 +16,7 @@ const Newsletter = () => {
   const [email, setEmail] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [posts, setPosts] = useState<PostProps[]>([]);
-  const [content, setContent] = useState<any>([])
   const [postCategories, setPostCategories] = useState<{ [key: number]: string[] }>({});
-  const [updatedAt, setUpdatedAt] = useState<string>()
   const [offset, setOffset] = useState(0)
 
   const LIMIT = 6 // number of posts nitafetch each time
@@ -122,15 +120,25 @@ const Newsletter = () => {
 
       // save email to database
       const supabase = createClient()
-      const { error } = await supabase.from("subscribers").insert({
-        email: email
-      })
+      const { data, error } = await supabase
+        .from("subscribers")
+        .insert([
+          { email: email }
+      ])
+        .select()
 
-    if (error?.code === "23505") {
-      toast("You have already subscribed!")
-      setIsLoading(false)
-      return;
-    }
+
+      if (error) {
+        if (error?.code === "23505") {
+          toast("You have already subscribed!")
+          setIsLoading(false)
+          setEmail("")
+          return;
+        } else {
+          console.log("error", error)
+        }
+      }
+
 
       if (posts.length === 0) {
         toast('No posts available to send')

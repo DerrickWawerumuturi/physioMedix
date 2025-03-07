@@ -41,11 +41,6 @@ const NewsletterEmail = (
       <Body style={main}>
         <Preview>Monthly newsletter from physiomedix</Preview>
         <Container style={container}>
-          {/* logo */}
-          <Section style={logo}>
-            <Img width={146} src={`${baseUrl}/favicon.ico`} />
-          </Section>
-
         {/*  header */}
           <Section style={header}>
             <Row>

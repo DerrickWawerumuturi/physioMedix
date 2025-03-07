@@ -33,11 +33,6 @@ const ThankYouEmail = ({email} : {email: string}) => {
       <Body style={main}>
         <Preview>Thank you for subscribing to PhysioMedix! Monthly newsletter</Preview>
         <Container style={container}>
-          {/* Logo */}
-          <Section style={logo}>
-            <Img width={146} src={`${baseUrl}/favicon.ico`} />
-          </Section>
-
           {/* Header */}
           <Section style={header}>
             <Row>
@@ -106,7 +101,7 @@ const headerContentTitle = {
 };
 const styleContent = { padding: '30px 30px 40px 30px' };
 const paragraph = { fontSize: '15px', lineHeight: '21px', color: '#3c3f44' };
-const buttonContainer = { marginTop: '24px', display: 'block' };
+const buttonContainer = { marginTop: '24px', display: 'block', marginLeft: '14px' };
 const button = {
   backgroundColor: '#0095ff',
   border: '1px solid #0077cc',
